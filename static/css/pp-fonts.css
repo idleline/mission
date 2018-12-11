@@ -1,0 +1,189 @@
+/* PayPal Fonts 
+Author: Rupin Khandelwal
+Paypal sans font will be applied to all regions except few asian countries like China and Japan.
+NOTE:This file should be included in the base.dust and before base.css because fonts for other asian countries will fall back to the layout in the base.css.
+*/
+/* Paypal Sans Big */
+
+/* Unused Big Fonts
+@font-face {
+  font-family: "pp-sans-big-bold";
+  src: url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansBig-Bold.eot");
+  src: url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansBig-Bold.eot?#iefix") format("embedded-opentype"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansBig-Bold.woff") format("woff"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/headlinedark/festivo1.ttf") format("truetype"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansBig-Bold.svg") format("svg");
+}*/
+@font-face {
+  font-family: "pp-sans-big-light";
+  src: url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansBig-Light.eot");
+  src: url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansBig-Light.eot?#iefix") format("embedded-opentype"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansBig-Light.woff") format("woff"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/headlinedark/festivo1.ttf") format("truetype"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansBig-Light.svg") format("svg");
+}
+@font-face {
+  font-family: "pp-sans-big-thin";
+  src: url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansBig-Thin.eot");
+  src: url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansBig-Thin.eot?#iefix") format("embedded-opentype"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansBig-Thin.woff") format("woff"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/headlinedark/festivo1.ttf") format("truetype"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansBig-Thin.svg") format("svg");
+}
+@font-face {
+  font-family: "pp-sans-big-medium";
+  src: url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansBig-Medium.eot");
+  src: url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansBig-Medium.eot?#iefix") format("embedded-opentype"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansBig-Medium.woff") format("woff"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/headlinedark/festivo1.ttf") format("truetype"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansBig-Medium.svg") format("svg");
+}
+@font-face {
+  font-family: "pp-sans-big-regular";
+  src: url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansBig-Regular.eot");
+  src: url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansBig-Regular.eot?#iefix") format("embedded-opentype"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansBig-Regular.woff") format("woff"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/headlinedark/festivo1.ttf") format("truetype"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansBig-Regular.svg") format("svg");
+}
+/*
+/*Paypal Sans Small-------------------------------------*/
+/* Unused small fonts
+@font-face {
+  font-family: "pp-sans-small-bold";
+  src: url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansSmall-Bold.eot");
+  src: url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansSmall-Bold?#iefix") format("embedded-opentype"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansSmall-Bold.woff") format("woff"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/headlinedark/festivo1.ttf") format("truetype"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansSmall-Bold.svg") format("svg");
+}*/
+@font-face {
+  font-family: "pp-sans-small-light";
+  src: url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansSmall-Light.eot");
+  src: url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansSmall-Light.eot?#iefix") format("embedded-opentype"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansSmall-Light.woff") format("woff"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/headlinedark/festivo1.ttf") format("truetype"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansSmall-Light.svg") format("svg");
+}
+@font-face {
+  font-family: "pp-sans-small-medium";
+  src: url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansSmall-Medium.eot");
+  src: url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansSmall-Medium.eot?#iefix") format("embedded-opentype"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansSmall-Medium.woff") format("woff"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/headlinedark/festivo1.ttf") format("truetype"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansSmall-Medium.svg") format("svg");
+}
+@font-face {
+  font-family: "pp-sans-small-regular";
+  src: url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansSmall-Regular.eot");
+  src: url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansSmall-Regular.eot?#iefix") format("embedded-opentype"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansSmall-Regular.woff") format("woff"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/headlinedark/festivo1.ttf") format("truetype"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansSmall-Regular.svg") format("svg");
+}
+@font-face {
+  font-family: "pp-sans-small-thin";
+  src: url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansSmall-Thin.eot");
+  src: url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansSmall-Thin.eot?#iefix") format("embedded-opentype"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansSmall-Thin.woff") format("woff"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/headlinedark/festivo1.ttf") format("truetype"), url("https://www.paypalobjects.com/webstatic/mktg/2014design/font/PP-Sans/PayPalSansSmall-Thin.svg") format("svg");
+}
+/*BIG------------------------*/
+.pp-sans-big-bold {
+  font-family: "pp-sans-big-bold", Helvetica Neue, Arial, sans-serif;
+  font-weight: normal;
+  font-variant: normal;
+}
+.pp-sans-big-light {
+  font-family: "pp-sans-big-light", Helvetica Neue, Arial, sans-serif;
+  font-weight: normal;
+  font-variant: normal;
+}
+.pp-sans-big-medium {
+  font-family: "pp-sans-big-medium", Helvetica Neue, Arial, sans-serif;
+  font-weight: normal;
+  font-variant: normal;
+}
+.pp-sans-big-regular {
+  font-family: "pp-sans-big-regular", Helvetica Neue, Arial, sans-serif;
+  font-weight: normal;
+  font-variant: normal;
+}
+/*SMALL-------*/
+.pp-sans-small-bold {
+  font-family: "pp-sans-small-bold", Helvetica Neue, Arial, sans-serif;
+  font-weight: normal;
+  font-variant: normal;
+}
+.pp-sans-small-light {
+  font-family: "pp-sans-small-light", Helvetica Neue, Arial, sans-serif;
+  font-weight: normal;
+  font-variant: normal;
+}
+.pp-sans-small-medium {
+  font-family: "pp-sans-small-medium", Helvetica Neue, Arial, sans-serif;
+  font-weight: normal;
+  font-variant: normal;
+}
+.pp-sans-small-regular {
+  font-family: "pp-sans-small-regular", Helvetica Neue, Arial, sans-serif;
+  font-weight: normal;
+  font-variant: normal;
+}
+.pp-sans-small-thin {
+  font-family: "pp-sans-small-thin", Helvetica Neue, Arial, sans-serif;
+  font-weight: normal;
+  font-variant: normal;
+}
+/* Dharma Gothic Fonts */
+/**
+ * @license
+ * MyFonts Webfont Build ID 3112442, 2015-10-22T13:07:46-0400
+ *
+ * The fonts listed in this notice are subject to the End User License
+ * Agreement(s) entered into by the website owner. All other parties are
+ * explicitly restricted from using the Licensed Webfonts(s).
+*/
+@font-face {
+  font-family: 'DharmaGothicE-Regular';
+  src: url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_0_0.eot');
+  src: url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_0_0.eot?#iefix') format('embedded-opentype'), url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_0_0.woff') format('woff'), url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_0_0.ttf') format('truetype');
+}
+/*
+@font-face {
+  font-family: 'DharmaGothicE-ExLightItalic';
+  src: url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_1_0.eot');
+  src: url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_1_0.eot?#iefix') format('embedded-opentype'), url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_1_0.woff') format('woff'), url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_1_0.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'DharmaGothicE-Heavy';
+  src: url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_2_0.eot');
+  src: url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_2_0.eot?#iefix') format('embedded-opentype'), url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_2_0.woff') format('woff'), url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_2_0.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'DharmaGothicE-Thin';
+  src: url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_3_0.eot');
+  src: url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_3_0.eot?#iefix') format('embedded-opentype'), url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_3_0.woff') format('woff'), url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_3_0.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'DharmaGothicE-ExBoldItalic';
+  src: url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_4_0.eot');
+  src: url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_4_0.eot?#iefix') format('embedded-opentype'), url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_4_0.woff') format('woff'), url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_4_0.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'DharmaGothicE-ThinItalic';
+  src: url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_5_0.eot');
+  src: url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_5_0.eot?#iefix') format('embedded-opentype'), url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_5_0.woff') format('woff'), url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_5_0.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'DharmaGothicE-Bold';
+  src: url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_6_0.eot');
+  src: url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_6_0.eot?#iefix') format('embedded-opentype'), url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_6_0.woff') format('woff'), url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_6_0.ttf') format('truetype');
+}*/
+@font-face {
+  font-family: 'DharmaGothicE-RegularItalic';
+  src: url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_7_0.eot');
+  src: url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_7_0.eot?#iefix') format('embedded-opentype'), url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_7_0.woff') format('woff'), url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_7_0.ttf') format('truetype');
+}
+/*
+@font-face {
+  font-family: 'DharmaGothicE-ExLight';
+  src: url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_8_0.eot');
+  src: url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_8_0.eot?#iefix') format('embedded-opentype'), url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_8_0.woff') format('woff'), url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_8_0.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'DharmaGothicE-LightItalic';
+  src: url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_9_0.eot');
+  src: url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_9_0.eot?#iefix') format('embedded-opentype'), url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_9_0.woff') format('woff'), url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_9_0.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'DharmaGothicE-Light';
+  src: url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_A_0.eot');
+  src: url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_A_0.eot?#iefix') format('embedded-opentype'), url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_A_0.woff') format('woff'), url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_A_0.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'DharmaGothicE-BoldItalic';
+  src: url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_B_0.eot');
+  src: url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_B_0.eot?#iefix') format('embedded-opentype'), url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_B_0.woff') format('woff'), url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_B_0.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'DharmaGothicE-HeavyItalic';
+  src: url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_C_0.eot');
+  src: url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_C_0.eot?#iefix') format('embedded-opentype'), url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_C_0.woff') format('woff'), url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_C_0.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'DharmaGothicE-ExBold';
+  src: url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_D_0.eot');
+  src: url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_D_0.eot?#iefix') format('embedded-opentype'), url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_D_0.woff') format('woff'), url('https://www.paypalobjects.com/webstatic/mktg/2014design/font/Dharma-Gothic-Expanded/webfonts/2F7DFA_D_0.ttf') format('truetype');
+}*/

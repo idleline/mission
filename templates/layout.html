@@ -1,0 +1,27 @@
+{% block head %}
+    <title>{% block title %}Swordpoint & G5{% endblock %}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    {% assets "layout_css" %}
+        <link rel=stylesheet type=text/css href="{{ ASSET_URL }}">
+    {% endassets %}
+
+{% endblock %}
+
+<div id="content">
+    {% block content %}
+        <div class="jumbotron jumbotron-fluid dashboard brand">
+            <a class='no-decoration' href='https://swordpoint.idleline.io'><h1 class="display-4">Swordpoint & G5</h1></a>
+        </div>
+    {% endblock %}
+</div>
+
+<div id="footer">
+    {% block footer %}
+
+        {% assets "layout_js" %}
+            <script src="{{ ASSET_URL }}"></script>
+        {% endassets %}
+        
+    {% endblock %}
+</div>
