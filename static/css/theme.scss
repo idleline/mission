@@ -1,0 +1,14 @@
+$theme_colors: (
+  "payblue"     : #00457C,
+  "palblue"     : #0079C1,
+  "slate"       : #E6E7E8,
+  "darkslate"   : #717074,
+  "sand"        : #E7E5D3,
+  "darksand"    : #959484,
+  "tangerine"   : #FBA824,
+  "tomato"      : #B32317,
+);
+/*
+@each $color, $value in $theme-colors {
+  @include bg-variant('.bg-#{$color}', $value);
+*/

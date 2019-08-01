@@ -1,623 +1,217 @@
+
+/* BASIC */
 body {
     font-family: "pp-sans-small-regular", Helvetica Neue, Arial, sans-serif;
-    font-size: small;
-    background-color: #f8f9fa!important;
 }
 
-body h1, body h2, body h3, body h4 {
-    font-family: "DharmaGothicE-Regular", Helvetica Neue, Arial, sans-serif;
-}
-
-.row+.row {
-    margin-top: 1rem;
-}
-
-.card-header {
-    font-size: 18px;
-    background-color: #545b62;
-    color: white;
-}
-
-div.card.card-map {
-    border: none;
-}
-
-a.no-decoration:hover {
-    text-decoration: none;
-}
-
-.jumbotron h1 {
-    color: white;
-    position: absolute;
-    left: 60%;
-}
-
-.jumbotron h1.display-3 {
-    position: relative;
-    left: -30%;
-    top: 200px;
-}
-
-.form-container {
-    max-width: 50%;
-    margin: auto;
-}
-.emphasis h1 {
-    font-size: 48px;
-}
-
-h1.header, h2.header, h3.header, h4.header, h4.modal-title {
-    font-family: "pp-sans-big-light", Helvetica Neue, Arial, sans-serif;
-    text-align: center;
-    line-height: 1.25em;
-    letter-spacing: 0.01em;
-    font-weight: normal;
-    font-variant: normal;
-}
-
-h5 {
-    font-size: 18px;
-}
-
-.scroll {
-    overflow: scroll;
-    height: 250px;
-}
-
-h1.header {
-    font-size: 36px;
-}
-
-h2.header {
-    font-size: 3em;
-}
-
-h3.header {
-    font-size: 22px;
-}
-
-h4.header {
-    font-size: 2em;
+h1, h2, h3, .h1, .h2, .h3 {
     font-family: "pp-sans-big-light", Helvetica Neue, Arial, sans-serif;
 }
 
-.center {
-    text-align: center;
+h4, h5, .h4, .h5 {
+    font-family: "pp-sans-small-light", Helvetica Neue, Arial, sans-serif;
 }
 
-.modal-body { 
-    height: 450px; 
+/* HOVER CSS CUSTOM */
+.hvr-fade:active, .hvr-fade:focus, .hvr-fade:hover {
+    background-color: #0079C1;
 }
 
-.map-info {
-    max-width: 490px;
-    height: auto;
+/* SELECT 2 STYLING */
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+    border-color: #717074;
+    border: solid 1px;
 }
 
-.spacer-50 {
-    margin-bottom: 50px;
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #0079C1;
+    color: #fff;
+    border: 1px solid #0079C1;
+    border-radius: 4px;
 }
 
-.spacer-32 {
-    margin-bottom: 32px;
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    color: #fff;
 }
 
-.navbar-default {
-    font-family: "DharmaGothicE-Regular", Helvetica Neue, Arial, sans-serif;
-    color: #4a2c15;
-    background-color: #fff;
-    margin-bottom: 0;
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+    color: #eee;
 }
 
-h1.navbar {
-    margin: 5px;
+/* SIDEBAR */
+#sidebar-menu > ul > li > a:hover {
+    background-color: #00457C;
 }
 
-.form-label {
-    font-size: 20px;
+/* DATATABLE STYLING */
+.table-striped tbody tr:nth-of-type(odd).selected, .table-striped tbody tr:nth-of-type(even).selected, .table tbody tr.selected {
+    background-color: rgba(230,231,232,.4);
 }
 
-.nlm {
-    margin-left: 0;
+.table td, .table th {
+    vertical-align: middle;
+    min-width: 100px;
 }
 
-.nlp {
-    padding-left: 0;
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+    min-width: 100px;
+    font-family: "pp-sans-big-light", Helvetica Neue, Arial, sans-serif;
 }
 
-.leaflet-control-custom {
-    height: 35px;
-    width: 35px;
-    background: white;
+.table tbody td {
+    font-family: "pp-sans-small-light", Helvetica Neue, Arial, sans-serif;
 }
 
-.map-icon-archery:before {
-    font-size: 25px;
-    position: relative;
-    bottom: 20px;
+.table.matrix tbody td {
+    font-size: 12px;
 }
 
-.map-icon-archery.legend:before {
-    bottom: 0px;
-    top: 4px;
-}
-
-.map-icon-location-arrow:before {
-    font-size: 22px;
-    position: relative;
-    bottom: -3px;
-    left: -1px; 
-}
-
-.map-icon-campground {
-    color: green;
-}
-
-.map-icon-natural-feature {
-    color: #717074;
-}
-
-.map-icon-square-pin {
-    color: #0079C1;
-}
-
-.map-icon-map-pin {
-    color: red;
-}
-
-.info.legend {
-    line-height: 18px;
-    background-color: rgba(0,0,0,.15);
-    padding: 10px;
-    border-radius: 5px;
-    color: #555;
-}
-
-.coords {
-    font-size: 10px;
-}
-
-.leaflet-popup-content-wrapper {
-    padding: 0px;
-	border-radius: 4px;
-}
-
-.leaflet-popup-content {
-	margin: 0px;
-}
-
-div.info.legend > .map-icon-archery > label {
-    height: 18px;
-    font-family: "pp-sans-big-regular", Helvetica Neue, Arial, sans-serif;
+.table.matrix thead th {
     font-size: 14px;
-    color: #333;
 }
 
-.black { 
-    color: #383636;
+.scrollXtable {
+    overflow-x: auto;
 }
 
-.blue {
-    color: #0d5a9c;
-}
-
-.green {
-    color: #147516;
-}
-
-.brown {
-    color: #a76114;
-}
-
-.temp {
-    font-family: "pp-sans-big-bold", Helvetica Neue, Arial, sans-serif;
-}
-
-.high-temp {
-    color: #F8981D;
-}
-
-.low-temp {
-    color: #0079C1;
-}
-
-.heat-on {
-    color: #F8981D;
-}
-
-.heat-off {
-    color: grey;
-}
-
-.cool-on {
-    color: #0079C1;
-}
-
-.cool-off {
-    color: grey;
-}
-
-
-.leaflet-popup.leaflet-zoom-animated {
-    bottom: 20px !important;
-}
-
-.leaflet-control-custom {
-    text-align: center;
-    padding-top: 2px;
-}
-
-.map-icon {
-    font-size: 20px;
-}
-
-.legend {
-    line-height: 18px;
-}
-
-.legend i {
-    width: 28px;
-    height: 28px;
-    float: left;
-    margin-right: 8px;
-    opacity: 0.7;
-}
-
-table.table > tbody > tr > td {
-    border-top: 0;
-    padding: 4px;
-}
-
-.fa-crosshairs {
-    background-color    : white;
-    width               : 35px;
-    height              : 35px;
-    line-height         : 29px;
-}
-
-.snapshot {
+/* CARD STYLING */
+.card-deck {
     width: 100%;
 }
 
-.bootstrap-select>.dropdown-toggle.bs-placeholder:focus, .bootstrap-select>.dropdown-toggle.bs-placeholder.bootstrap-select>.dropdown-toggle.bs-placeholder:focus, .bootstrap-select>.dropdown-toggle.bs-placeholder, .bootstrap-select>.dropdown-toggle.bs-placeholder:hover, .bootstrap-select>.dropdown-toggle {
-    height: 100%;
-    background-color: white;   
-    font-size: 1rem;
-    line-height: 1.5;
+
+.brand-icons {
+    font-size: 3em;
+}
+
+img.snapshot {
+    width: 100%;
+}
+
+.video-on {
+    color: green;
+}
+
+.video-off {
+    color: red;
+}
+
+.tstat {
+    min-height: 350px;
+    background-size: 275px 275px;
+    background-image: url(/static/images/nest-ts.png);
+    background-repeat: no-repeat;
+    background-repeat-x: no-repeat;
+    background-repeat-y: no-repeat;
+    background-position-x: center;
+    background-position-y: 40px;
+}
+
+.temp {
+    position: relative;
+    top: 100px;
+    left: 5px;
+    font-size: 4em;
+    color: #fff;
+}
+
+.temp-setting, .heat-setting, .cool-setting {
+    position: relative;
+    padding: 0;
+}
+
+.temp-setting {
+    font-family: "pp-sans-small-light", Helvetica Neue, Arial, sans-serif; 
+    font-size: 1.3em;
+    top: 100px;
+    color: #fff;
+}
+
+.temp-set, .temp-icon-set, .temp-deg-set {
+    margin: auto;
+}
+
+.cool-on, .heat-on {
+    color: #fff;
+}
+
+.heat-off, .cool-off {
+    color: #26B9CE;
+}
+
+.status-header {
+    font-size: 1.1em;
+}
+
+/* PARSLEY STYLING */
+.parsley-error {
+    border-color: rgba(224, 50, 35, .5);
+}
+
+input.form-control.parsley-error:focus {
     color: #495057;
     background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: .25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    border-color: rgba(224, 50, 35, 1);
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(206, 95, 95, 0.25);
 }
 
-.device-header {
-    font-size: 1.2em;
-    font-family: pp-sans-big-regular, Helvetica Neue, Arial, sans-serif;;
+ul.parsley-errors-list {
+    margin-bottom: 0;
+    color: #E03223;
+    list-style-type: none;
+    padding-left: 1.5em;
+    font-size: 12px;
 }
 
-@media only screen and (min-width: 660px) {
-        .map-info {
-        max-width: 250px;
-        height: auto;
-    }
+ul.parsley-errors-list li:before {
+  content: "\f00d"; /* FontAwesome Unicode */
+  font-family: FontAwesome;
+  display: inline-block;
+  margin-left: -1.3em; /* same as padding-left set on li */
+  width: 1.3em; /* same as padding-left set on li */
 }
 
-@media only screen and (min-width: 840px) {
-        .map-info {
-        max-width: 300px;
-        height: auto;
-    }
+li.parsley-required {
+    color: #E03223;
 }
 
-
-@media (min-width: 319px) {
-        
-    h1.navbar {
-        text-align: center;        
-    }
-    
-    .navbar-collapse {
-        display: block;
-    }
-
-    .jumbotron.dashboard.brand {
-        background: url('../img/jtron.png') no-repeat center ;
-        background-size: cover;
-        height: 150px;
-    }
-    
-    .jumbotron.dashboard.activity {
-        background: url('../img/jtron1.jpg') no-repeat center top;
-        background-size: cover;
-        height: 300px;
-    }
-    
-    .jumbotron.dashboard.weather {
-        background: url('../img/jtron3.jpg') no-repeat center top;
-        background-size: cover;
-        height: 300px;
-    }
-    
-    .jumbotron.dashboard.home {
-        background: url('../img/mission-front.jpg') no-repeat center ;
-        background-size: cover;
-        height: 150px;
-    }
-    
-    .jumbotron h1.display-3 {
-        position: relative;
-        left: 5%;
-        top: 200px;
-    }
+input.form-control::placeholder {
+    color: #DEE2E6;
 }
 
-@media (min-width: 565px) {
-
-    .jumbotron.dashboard.brand {
-        background: url('../img/jtron.png') no-repeat center ;
-        background-size: cover;
-        height: 190px;
-    }
-    
-    .jumbotron.dashboard.activity {
-        background: url('../img/jtron1.jpg') no-repeat center top;
-        background-size: cover;
-        height: 400px;
-    }
-    
-    .jumbotron.dashboard.weather {
-        background: url('../img/jtron3.jpg') no-repeat center top;
-        background-size: cover;
-        height: 400px;
-    }
-    
-    .jumbotron.dashboard.home {
-        background: url('../img/mission-front.jpg') no-repeat center ;
-        background-size: cover;
-        height: 400px;
-    }
-    
-    .jumbotron h1.display-3 {
-        position: relative;
-        left: 5%;
-        top: 200px;
-    }
-    
-    .map-info {
-        max-width: 250px;
-        height: auto;
-    }
-    
-    .card-deck {
-        display: inline-block;
-    }
-}
-
-@media (min-width: 765px) {
-    .section:after {
-        position: absolute;
-        content: "";
-        background-image: linear-gradient(to bottom, silver 50%, rgba(255,255,255,0) 40%);
-        background-position: top;
-        background-size: 1px 3px;
-        background-repeat: repeat-y;
-        height: 80%;
-        width: 1px;
-        top: 10%;
-        right: 0px;
-    }
-
-    .jumbotron.dashboard.brand {
-        background: url('../img/jtron.png') no-repeat center ;
-        background-size: cover;
-        height: 250px;
-    }
-    
-    .jumbotron.dashboard.activity {
-        background: url('../img/jtron1.jpg') no-repeat center top;
-        background-size: cover;
-        height: 400px;
-    }
-    
-    .jumbotron.dashboard.weather {
-        background: url('../img/jtron3.jpg') no-repeat center top;
-        background-size: cover;
-        height: 400px;
-    }
-    
-    .jumbotron.dashboard.home {
-        background: url('../img/mission-front.jpg') no-repeat center ;
-        background-size: cover;
-        height: 400px;
-    }
-    
-    .map-info {
-        max-width: 250px;
-        height: auto;
-    }
-
-}
-
-@media (min-width: 992px) {
-    
-    .jumbotron.dashboard.brand {
-        background: url('../img/jtron.png') no-repeat center ;
-        background-size: cover;
-        height: 350px;
-    }
-    
-    .jumbotron.dashboard.activity {
-        background: url('../img/jtron1.jpg') no-repeat center top;
-        background-size: cover;
-        height: 350px;
-    }
-    
-    .jumbotron.dashboard.weather {
-        background: url('../img/jtron3.jpg') no-repeat center top;
-        background-size: cover;
-        height: 350px;
-    }
-    
-    .jumbotron.dashboard.home {
-        background: url('../img/mission-front.jpg') no-repeat center ;
-        background-size: cover;
-        height: 350px;
-    }
-    
-    .map-info {
-        max-width: 450px;
-        height: auto;
-    }
-    
-    .card-deck {
-        display: flex;
-    }
-
-    span {
-        font-size: medium;
-    }
-}
-
-@media (min-width: 1024px) {
-    
-    body h1, body h2, body h3, body h4 {
-        text-align: center;
-    }
-    
-    h1.navbar {
-        font-size: 48px;
-    }
-
-    
-    .jumbotron.dashboard.brand {
-        background: url('../img/jtron.png') no-repeat center ;
-        background-size: cover;
-        height: 470px;
-    }
-    
-    .jumbotron.dashboard.activity {
-        background: url('../img/jtron1.jpg') no-repeat center top;
-        background-size: cover;
-        height: 470px;
-    }
-    
-    .jumbotron.dashboard.weather {
-        background: url('../img/jtron3.jpg') no-repeat center top;
-        background-size: cover;
-        height: 470px;
-    }
-    
-    .jumbotron.dashboard.home {
-        background: url('../img/mission-front.jpg') no-repeat center ;
-        background-size: cover;
-        height: 470px;
-    }
-    
-    .jumbotron h1.display-3 {
-        position: relative;
-        left: -25%;
-        top: 300px;
-    }
-}
-
-@media (min-width: 1280px) {
-    
-    h1.navbar {
-        font-size: 54;
-    }
-    
-    .container {
-        width: 1050px;
-    }
-    
-    .jumbotron.dashboard.brand {
-        background: url('../img/jtron.png') no-repeat center ;
-        background-size: cover;
-        height: 470px;
-    }
-    
-    .jumbotron.dashboard.activity {
-        background: url('../img/jtron1.jpg') no-repeat center top;
-        background-size: cover;
-        height: 600px;
-    }
-    
-    .jumbotron.dashboard.weather {
-        background: url('../img/jtron3.jpg') no-repeat center top;
-        background-size: cover;
-        height: 600px;
-    }
-    
-    .jumbotron.dashboard.home {
-        background: url('../img/mission-front.jpg') no-repeat center ;
-        background-size: cover;
-        height: 400px;
-    }
-    
-    .jumbotron h1.display-3 {
-        position: relative;
-        left: -25%;
-        top: 205px;
+@media (min-width: 576px) {
+    .card-header h3 {
+        font-size: 1rem;
     }
 }
 
 
-@media (min-width: 1600px) {
-    
-    h1.navbar {
-        font-size: 54;
-    }
-    
-    .container {
-        width: 1450px;
-    }
-    
-    .jumbotron.dashboard.brand {
-        background: url('../img/jtron.png') no-repeat center ;
-        background-size: cover;
-        height: 470px;
-    }
-    
-    .jumbotron.dashboard.activity {
-        background: url('../img/jtron1.jpg') no-repeat center top;
-        background-size: cover;
-        height: 800px;
-    }
-    
-    .jumbotron.dashboard.weather {
-        background: url('../img/jtron3.jpg') no-repeat center top;
-        background-size: cover;
-        height: 800px;
-    }
-    
-    .jumbotron.dashboard.home {
-        background: url('../img/mission-front.jpg') no-repeat center ;
-        background-size: cover;
-        height: 400px;
-    }
-    
-    span {
-        font-size: large;
+@media (min-width: 1100px) {
+    .card-header h3 {
+        font-size: 1.3rem;
     }
 }
 
-@media (min-width: 1800px) {
-
-    h1.navbar {
-        font-size: 68px;
-    }
-
-    .container {
-        width: 1650px;
+@media (min-width: 1500px) {
+    .card-header h3 {
+        font-size: 1.6rem;
     }
 }
 
-@media (min-width: 2000px) {
+@media (min-width: 2048px) {
     
-    .container {
-        width: 1800px;
+    .card-columns {
+        column-count: 4;
+    }
+}
+
+@media (min-width: 2632px) {
+    
+    .card-columns {
+        column-count: 5;
     }
 }
 

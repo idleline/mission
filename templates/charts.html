@@ -1,0 +1,204 @@
+{% extends "layout.html" %}
+{% block title %}{{super()}} Charts{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    
+    {% assets "master_css" %}
+            <link rel=stylesheet type=text/css href="{{ ASSET_URL }}">
+    {% endassets %}
+     
+{% endblock %}
+{% block content %}
+	{{ super() }}
+    <div class="content-page">
+		<!-- Start content -->
+        <div class="content">
+			<div class="container-fluid">							
+					<div class="row">
+							<div class="col-xl-12">
+									<div class="breadcrumb-holder">
+											<h1 class="main-title float-left">Charts</h1>
+											<ol class="breadcrumb float-right">
+												<li class="breadcrumb-item">Home</li>
+												<li class="breadcrumb-item active">Charts</li>
+											</ol>
+											<div class="clearfix"></div>
+									</div>
+							</div>
+					</div>
+					<!-- end row -->
+
+					
+					<div class="row">
+					
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">						
+								<div class="card mb-3">
+									<div class="card-header">
+										<i class="fal fa-chart-bar"></i> Bar Chart
+									</div>
+										
+									<div class="card-body">
+										<canvas id="barChart"></canvas>
+									</div>							
+									<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+								</div><!-- end card-->					
+							</div>
+							
+							<!-- All Arrows Chart -->
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-3">						
+								<div class="card mb-3">
+									<div class="card-header">
+										<i class="fal fa-chart-pie"></i> Match Arrow Totals
+									</div>
+										
+									<div class="card-body">
+										<canvas id="arrowChart1"></canvas>
+									</div>
+									<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+								</div><!-- end card-->					
+							</div>
+							
+							<!-- First Arrow Charts -->
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-3">						
+								<div class="card mb-3">
+									<div class="card-header">
+										<i class="fal fa-chart-pie"></i> First Arrow Totals
+									</div>
+										
+									<div class="card-body">
+										<canvas id="arrowChart2"></canvas>
+									</div>
+									<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+								</div><!-- end card-->					
+							</div>
+							
+							<!-- Second Arrow Charts -->
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-3">						
+								<div class="card mb-3">
+									<div class="card-header">
+										<i class="fal fa-chart-pie"></i> Second Arrow Totals
+									</div>
+										
+									<div class="card-body">
+										<canvas id="arrowChart3"></canvas>
+									</div>
+									<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+								</div><!-- end card-->					
+							</div>
+							
+							<!-- Third Arrow Charts -->
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-3">						
+								<div class="card mb-3">
+									<div class="card-header">
+										<i class="fal fa-chart-pie"></i> Third Arrow Totals
+									</div>
+										
+									<div class="card-body">
+										<canvas id="arrowChart4"></canvas>
+									</div>
+									<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+								</div><!-- end card-->					
+							</div>
+							
+							<!-- END ARROW CHARTS -->
+							
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">						
+								<div class="card mb-3">
+									<div class="card-header">
+										<i class="fal fa-chart-area"></i> Arrow Averages 
+									</div>
+										
+									<div class="card-body">
+										<canvas id="comboArrowChart"></canvas>
+									</div>							
+									<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+								</div><!-- end card-->					
+							</div>
+
+					</div>
+					
+					
+					<div class="row">
+					
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-3">						
+								<div class="card mb-3">
+									<div class="card-header">
+										<i class="fal fa-chart-pie"></i> Pie Chart
+									</div>
+										
+									<div class="card-body">
+										<canvas id="pieChart"></canvas>
+									</div>
+									<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+								</div><!-- end card-->					
+							</div>
+							
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-3">						
+								<div class="card mb-3">
+									<div class="card-header">
+										<i class="fal fa-chart-pie"></i> Doughnut Chart
+									</div>
+										
+									<div class="card-body">
+										<canvas id="doughnutChart"></canvas>
+									</div>
+									<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+								</div><!-- end card-->					
+							</div>
+							
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-3">						
+								<div class="card mb-3">
+									<div class="card-header">
+										<i class="fal fa-chart-network"></i> Radar Chart
+									</div>
+										
+									<div class="card-body">
+										<canvas id="radarChart"></canvas>
+									</div>
+									<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+								</div><!-- end card-->					
+							</div>
+							
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-3">						
+								<div class="card mb-3">
+									<div class="card-header">
+										<i class="fal fa-chart-network"></i> Polar Area Chart
+									</div>
+										
+									<div class="card-body">
+										<canvas id="polarAreaChart"></canvas>
+									</div>
+									<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+								</div><!-- end card-->					
+							</div>
+					</div>
+					<!-- end row -->
+            </div>
+			<!-- END container-fluid -->
+		</div>
+		<!-- END content -->
+    </div>
+	<!-- END content-page -->
+{% endblock %}
+{% block footer %}
+    {{ super() }} 
+
+    {% assets "counterup_js" %}
+        <script src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+
+    {% assets "datatables_js" %}
+        <script src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+
+    {% assets "mission_js" %}
+        <script src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+    
+    {% assets "charts_js" %}
+        <script src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+
+{% endblock %}
+

@@ -1,27 +1,99 @@
-{% block head %}
-    <title>{% block title %}Swordpoint & G5{% endblock %}</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<html lang="en">
+{% block html %}
 
-    {% assets "layout_css" %}
-        <link rel=stylesheet type=text/css href="{{ ASSET_URL }}">
-    {% endassets %}
+    <head>
+    {% block head %}
 
-{% endblock %}
-
-<div id="content">
-    {% block content %}
-        <div class="jumbotron jumbotron-fluid dashboard brand">
-            <a class='no-decoration' href='https://swordpoint.idleline.io'><h1 class="display-4">Swordpoint & G5</h1></a>
-        </div>
-    {% endblock %}
-</div>
-
-<div id="footer">
-    {% block footer %}
-
-        {% assets "layout_js" %}
-            <script src="{{ ASSET_URL }}"></script>
+    	<meta charset="utf-8">
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+        <title>{% block title %}DMARC{% endblock %}</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>	
+    	<meta name="description" content="Home Automation Dashboard">
+    		
+        {% assets "layout_css" %}
+            <link rel=stylesheet type=text/css href="{{ ASSET_URL }}">
         {% endassets %}
+                
+        {% assets "datatables_css" %}
+            <link rel=stylesheet type=text/css href="{{ ASSET_URL }}">
+        {% endassets %}
+    
+    {% endblock %} <!-- End Head Block -->
+    </head>
+    
+    <body class="adminbody">
+    {% block main %}
+        <div id="main">
+        {% block content %}
+        {{ path_parts }}
+            <div class="headerbar">
+    		<!-- LOGO -->
+                <div class="headerbar-left">
+        			<a href="/" class="logo"><img alt="Logo" src="/static/images/logo.png"> <span>DMARC</span></a>
+                </div>
+                <nav class="navbar-custom">
+                    <ul class="list-inline menu-left mb-0">
+                        <li class="float-left">
+                            <button class="button-menu-mobile open-left">
+        						<i class="fal fa-bars"></i>
+                            </button>
+                        </li>                        
+                    </ul>
+                </nav>
+        	</div> <!-- .headerbar -->
+        	{% block nav %}
+        	<div class="left main-sidebar"> <!-- Left Sidebar -->
+        		<div class="sidebar-inner leftscroll">
+        			<div id="sidebar-menu">
+        			    <ul>
+        					<li class="submenu">
+        						<a id="dashboard" href="/dashboard" class="hvr-fade "><i class="fal fa-tachometer-fast hvr-icon"></i><span> Dashboard </span> </a>
+                            </li>
+                            <li class="submenu">
+                                <a id="reports" href="/reports" class="hvr-fade "><i class="fal fa-mail-bulk hvr-icon"></i><span> MTA Reports </span> </a>
+                            </li>
+        					<li class="submenu">
+                                <a id="domains" href="#" class=""><i class="fal fa-mailbox hvr-icon"></i><span> Domains </span><span class="menu-arrow"></span></a>
+                                <ul class='list-unstyled'>
+                                {% if domains %}
+                                {% call get_domain_nav() %}
+        				        {% endcall %}
+        				        {% endif %}
+        				        </ul>
+                                
+        						<ul class="list-unstyled">
+            						<li><a href="/domains/paypal_com">@paypal.com</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+        			</div>
+                    <div class="clearfix"></div>    
+        			<div class="clearfix"></div>
+        		</div>
+        	</div> <!-- NAV Block -->
+            {% endblock %} 
+        {% endblock %} <!-- CONTENT Block -->
+    </div> <!-- MAIN BLOCK -->
+    {% endblock %} 
+            
+    {% block footerblock %}
+        <footer class="footer">
+            {% block footer %}
+        	
+        	<span class="text-right">
+            	Copyright <a target="_blank" href="#">PayPal DMARC Viewer</a>
+        	</span>
         
-    {% endblock %}
-</div>
+            {% assets "layout_js" %}
+                <script src="{{ ASSET_URL }}"></script>
+            {% endassets %}
+                
+            {% endblock %} 
+        </footer> <!-- FOOTER -->
+    {% endblock %} 
+        
+    {% block modal %}{% endblock %}
+    </body> <!-- BODY -->
+{% endblock %} 
+</html> <!-- HTML -->

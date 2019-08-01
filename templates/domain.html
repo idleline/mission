@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+{% block head %}
+    {{ super() }}
+    
+    {% assets "master_css" %}
+            <link rel=stylesheet type=text/css href="{{ ASSET_URL }}">
+    {% endassets %}
+     
+{% endblock %}
+{% block content %}
+{{ super() }}
+        <div class="content-page">
+    		<!-- Start content -->
+            <div class="content">    
+    			<div class="container-fluid">					
+    				<div class="row">
+    					<div class="col-xl-12">
+    						<div class="breadcrumb-holder">
+    							<h1 class="main-title float-left"><i class="fal fa-mailbox"></i> Domain: {{ domain.name }}</h1>
+    							<ol class="breadcrumb float-right">
+    								<li class="breadcrumb-item">Home</li>
+    								<li class="breadcrumb-item active"> Domain </li>
+    							</ol>
+    							<div class="clearfix"></div>
+    						</div>
+    					</div>
+    				</div>
+                    <div class="row">
+    					<div class="col-xs-12 col-md-6 col-lg-6 col-xl-4">
+    						<div class="card-box noradius noborder bg-default">
+    							<i class="fal fa-file-text float-right text-white"></i>
+    							<h6 class="text-white text-uppercase m-b-20">Records</h6>
+    							<h1 class="m-b-20 text-white counter">{{ domain.records|length }}</h1>
+    							<span class="text-white">RUA Records</span>
+    						</div>
+    					</div>
+                        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-4">
+    						<div class="card-box noradius noborder bg-danger">
+    							<i class="fal fa-inbox-out float-right text-white"></i>
+    							<h6 class="text-white text-uppercase m-b-20">Source IPs</h6>
+    							<h1 class="m-b-20 text-white counter">{{ domain.ips|length}} </h1>
+    							<span class="text-white">Non-rejected Source IPs for @{{ domain.name }}</span>
+    						</div>
+                        </div>
+                        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-4">
+    						<div class="card-box noradius noborder bg-default">
+    							<i class="fal fa-at float-right text-white"></i>
+    							<h6 class="text-white text-uppercase m-b-20">Selectors</h6>
+    							<h1 class="m-b-20 text-white counter">{{ domain.selectors|length}} </h1>
+    							<span class="text-white">DKIM Selectors for @{{ domain.name }}</span>
+    						</div>
+                        </div>
+                    </div>
+    			</div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    {{ super() }}
+
+    {% assets "dmarc_js" %}
+            <script src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+
+{% endblock %}
+

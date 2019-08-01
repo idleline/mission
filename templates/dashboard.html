@@ -1,0 +1,158 @@
+{% extends "layout.html" %}
+{% block head %}
+    {{ super() }}
+    
+    {% assets "master_css" %}
+            <link rel=stylesheet type=text/css href="{{ ASSET_URL }}">
+    {% endassets %}
+     
+{% endblock %}
+{% block content %}
+{{ super() }}
+    <div class="content-page">
+		<!-- Start content -->
+        <div class="content">    
+			<div class="container-fluid">					
+				<div class="row">
+					<div class="col-xl-12">
+						<div class="breadcrumb-holder">
+							<h1 class="main-title float-left"><i class="fal fa-monitor-heart-rate"></i> Dashboard </h1>
+							<ol class="breadcrumb float-right">
+								<li class="breadcrumb-item">Home</li>
+								<li class="breadcrumb-item active"> Dashboard </li>
+							</ol>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 col-md-6 col-lg-6 col-xl-4">
+						<div class="card-box noradius noborder bg-default">
+							<i class="fal fa-file-text float-right text-white"></i>
+							<h6 class="text-white text-uppercase m-b-20">Records</h6>
+							<h1 class="m-b-20 text-white counter">{{ records|length }}</h1>
+							<span class="text-white">RUA Records</span>
+						</div>
+					</div>
+					<div class="col-xs-12 col-md-6 col-lg-6 col-xl-4">
+						<div class="card-box noradius noborder bg-warning">
+							<i class="fal fa-envelope float-right text-white"></i>
+							<h6 class="text-white text-uppercase m-b-20">MTAs</h6>
+							<h1 class="m-b-20 text-white counter">{{ orgs|length }}</h1>
+							<span class="text-white">Mail Providers</span>
+						</div>
+					</div>
+					<div class="col-xs-12 col-md-6 col-lg-6 col-xl-4">
+						<div class="card-box noradius noborder bg-info">
+							<i class="fal fa-mail-bulk float-right text-white"></i>
+							<h6 class="text-white text-uppercase m-b-20">Reports</h6>
+							<h1 class="m-b-20 text-white counter">{{ reports|length }}</h1>
+							<span class="text-white">From Agari</span>
+						</div>
+					</div>
+					<div class="col-xs-12 col-md-6 col-lg-6 col-xl-4">
+						<div class="card-box noradius noborder bg-danger">
+							<i class="fal fa-inbox-out float-right text-white"></i>
+							<h6 class="text-white text-uppercase m-b-20">Source IPs</h6>
+							<h1 class="m-b-20 text-white counter">{{ ips|length}} </h1>
+							<span class="text-white">Non-rejected Source IPs for @paypal.com</span>
+						</div>
+                    </div>
+                    <div class="col-xs-12 col-md-6 col-lg-6 col-xl-4">
+						<div class="card-box noradius noborder bg-default">
+							<i class="fal fa-at float-right text-white"></i>
+							<h6 class="text-white text-uppercase m-b-20">Selectors</h6>
+							<h1 class="m-b-20 text-white counter">{{ selectors|length}} </h1>
+							<span class="text-white">DKIM Selectors for @paypal.com</span>
+						</div>
+                    </div>
+                    <div class="col-xs-12 col-md-6 col-lg-6 col-xl-4">
+						<div class="card-box noradius noborder bg-warning">
+							<i class="fal fa-mailbox float-right text-white"></i>
+							<h6 class="text-white text-uppercase m-b-20">Domains</h6>
+							<h1 class="m-b-20 text-white counter">{{ domains|length}} </h1>
+							<span class="text-white">Mail Domains</span>
+						</div>
+                    </div>
+				</div>
+				<div class="row">
+    				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-4">						
+						<div class="card mb-3">
+							<div class="card-header">
+								<i class="fal fa-at"></i> DKIM Selector Records
+							</div>
+							<div class="card-body">
+								<canvas id="dkimSelectorRecordChart"></canvas>
+							</div>
+							<div class="card-footer small text-muted">Total number of DMARC Records associated with a Selector</div>
+						</div><!-- end card-->					
+					</div>
+    				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-4">						
+						<div class="card mb-3">
+							<div class="card-header">
+								<i class="fal fa-chart-network"></i> DKIM Selector Unique IPs
+							</div>
+							<div class="card-body">
+								<canvas id="dkimIPChart"></canvas>
+							</div>
+							<div class="card-footer small text-muted">Unique IPs associated with a Selector</div>
+						</div><!-- end card-->					
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-4">						
+						<div class="card mb-3">
+							<div class="card-header">
+								<i class="fal fa-envelope"></i> Header From
+							</div>
+							<div class="card-body">
+								<canvas id="headerFromRecordChart"></canvas>
+							</div>
+							<div class="card-footer small text-muted">Total number of DMARCRecords from a domain</div>
+						</div><!-- end card-->					
+					</div>
+				</div>
+				<div class="row">
+    				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-4">						
+						<div class="card mb-3">
+							<div class="card-header">
+								<i class="fal fa-text-file"></i> SPF Failures Reported
+							</div>
+							<div class="card-body">
+								<canvas id="SPFFailChart"></canvas>
+							</div>
+							<div class="card-footer small text-muted">Total number of SPF failures by MTA</div>
+						</div><!-- end card-->					
+					</div>
+    				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-4">						
+						<div class="card mb-3">
+							<div class="card-header">
+								<i class="fal fa-envelope-open"></i> Top 10 IPs
+							</div>
+							<div class="card-body">
+								<canvas id="topIPsChart"></canvas>
+							</div>
+							<div class="card-footer small text-muted">Top 10 IPs frequency in DMARC records</div>
+						</div><!-- end card-->					
+					</div>
+				</div>
+			</div>
+        </div>
+    </div>
+{% endblock %} <!-- CONTENT -->
+{% block footer %}
+    {{ super() }}
+        
+    {% assets "datatables_js" %}
+        <script src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+    
+    {% assets "dmarc_js" %}
+        <script src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+    
+    {% assets "dashboard_js" %}
+        <script src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+        
+{% endblock %} <!-- FOOTER -->
+
+

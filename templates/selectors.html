@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block head %}
+    {{ super() }}
+    
+    {% assets "master_css" %}
+            <link rel=stylesheet type=text/css href="{{ ASSET_URL }}">
+    {% endassets %}
+     
+{% endblock %}
+{% block content %}
+{{ super() }}
+    <div class="content-page">
+		<!-- Start content -->
+        <div class="content">    
+			<div class="container-fluid">					
+				<div class="row">
+					<div class="col-xl-12">
+						<div class="breadcrumb-holder">
+							<h1 class="main-title float-left"><i class="fal fa-monitor-heart-rate"></i> Status</h1>
+							<ol class="breadcrumb float-right">
+								<li class="breadcrumb-item">Home</li>
+								<li class="breadcrumb-item active"> Status </li>
+							</ol>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+				</div>
+				<div class='row'>
+    				<table id="#selector-list" class="table mb-4">
+                        <thead>
+                            <th>Selector</th>
+                            <th>Domain</th>
+                            <th>Records</th>
+                        </thead>
+                        <tbody>
+                        {% for s in selectors %}
+                            <td>{{ f}}
+                            

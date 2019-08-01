@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block content %}
+{{ super() }}
+{% block nav %}{% endblock %}
+        <div class="content">    
+        	<div class="container-fluid">					
+        		<div class="row">
+        			<div class="col-xl-12">
+        				<div class="breadcrumb-holder">
+        					<h1 class="main-title float-left">Mission</h1>
+        					<ol class="breadcrumb float-right">
+        						<li class="breadcrumb-item">Home</li>
+        						<li class="breadcrumb-item active">Error</li>
+        					</ol>
+        					<div class="clearfix"></div>
+        				</div>
+        			</div>
+        		</div>
+                <div class="row">
+        			<div class="col-xs-12 col-md-6 offset-md-3">
+        				<div class="card-box noradius noborder bg-light error-box">
+            				<div class="text-center">
+                                <i class="far fa-frown-open"></i>
+                                <h4 class="text-uppercase m-b-20">
+                                    <span class="error-msg">Error</span>
+                                </h4>            				
+                                <h3 class="counter">There was a problem with your request</h1>
+                                <h1 class="counter text-center">{{ msg }}</h1>
+                            </div>
+        				</div>
+        			</div>
+                </div>
+        	</div>
+         </div>
+    </div>
+{% endblock %}
+

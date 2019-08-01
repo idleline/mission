@@ -1,22 +1,25 @@
 '''
     
-    swordpoint.lib.utils
+    dmarc.lib.utils
     
 '''
 # System Level imports
-import requests, json, re
+import requests, json, re, datetime, pytz, math
 from collections import OrderedDict
 from datetime import datetime
-from ring_doorbell import Ring
+
+# Flask imports
+from flask import request, session, redirect, url_for, render_template, flash, jsonify, send_from_directory, make_response
 
 # SQLAlchemy import
+from sqlalchemy import func, desc, distinct
 from sqlalchemy.ext.declarative.api import DeclarativeMeta
 
 # Application Level Imports
-from swordpoint import dprint
-from swordpoint.lib.database import db_session, init_db
-from swordpoint.lib import models
-from swordpoint.lib.models import *
+from dmarc import dprint
+from dmarc.lib import models
+from dmarc.lib.database import db_session, init_db
+from dmarc.lib.models import *
 
 # BS4 Import & Fallback
 try:
@@ -27,380 +30,358 @@ except ImportError:
 # CONSTANT
 startDate = '2018-10-02'
 
-init_db()
-
-def mission_status():
-    with open('device-status.txt', 'r') as fo:
-        devices = json.loads(fo.read())
+def domain_nav():
     
-    return devices['devices']['thermostats']['JbkbAb8Veduy0TQA1LI8e5gQ-5OYfhvG']
+    menu_items = '' 
 
-def camera_status():
+    for d in Domain.query.all():  
+        menu_items = menu_items + "<li><a href='/domain/{0}'>@{0}</a></li>".format(d.name)
     
-    with open('device-status.txt', 'r') as fo:
-        devices = json.loads(fo.read())
+    return menu_items
 
-    return devices['devices']['cameras']['5cjAyIjJJk65RCr2eWqwrPkWJKBPINEWXHmsMGRJsVCYEPuTmH4bxg']
 
-def nest_read_thermostat(authZ):
-    url = 'https://developer-api.nest.com'
+def ajax_response(status='success', data=None):
+    ''' Global AJAX handler '''
     
-    token = 'c.h3o91kPZhiPS04bd9tgCutv8LOMho7pzacRgVCKnUULeTOkMJBAFIHfaNuQlMnfa68J00XX2F0TkQsaDeMAVflzic2o8epG8smFuiMzQQlfARxt8TRtkLUgzJ4ObGYXBcrDvP80IeBGkr5it'
-
-    headers = {
-        'Authorization': "Bearer {0}".format(token),
-        'Content-Type' : 'application/json'
-    }   
-
-    r = requests.get(url, headers=headers, verify=False, allow_redirects=False)
+    update_user_activity()
     
-    if r.status_code == 307:
-        resp = requests.get(r.headers['Location'], headers=headers, allow_redirects=False)
+    return make_response(jsonify(
+        status = status, 
+        data = data,
+        ), 200)
+
+def update_user_activity():
+    ''' Global timestamp to update user last user activity ''' 
+
+    user = curr_user()
+    profile = UserProfile.query.filter(UserProfile.user == user).first()
+    profile.last_active = datetime.now()
+    db_session.commit()
+
+def epoch_to_datetime(epoch):
+    ''' Convert an epoch timestamp to a timezone '''
+    
+    dt = datetime.utcfromtimestamp(epoch)
+    dt = dt.replace(tzinfo=pytz.utc)
+
+    return dt
+
+def get_reports():
+    ''' Return a list of all reports '''
         
-        status = json.loads(resp.text)
-    
-        return status
-    
-    return None
+    reports = []
 
-def ring_cameras():
-    devices = get_ring_devices()
-    
-    cams = devices['stickup_cams']
-    
-    for c in cams:
-        c.snapshot_url = c.recording_url(c.last_recording_id)
-    
-    return cams 
-
-
-def get_ring_devices():
-    user = 'lawheelock@gmail.com'
-    pw = 'R%aZ00r4$'
-    
-    ring = Ring(user, pw)
-    
-    return ring.devices
-    
-    '''
-    doorbell = ring.devices['doorbell'][0]
-    doorbell.recording_download(
-        doorbell.history(
-            limit=100, 
-            kind='ding')[0]['id'],
-            filename='last_ding.mp4',
-            override=True
+    for r in DMARCReport.query.all():
+        
+        record_count = 0
+        for rec in r.records:
+            record_count += rec.count
+        
+        reports.append({
+            'org'   : r.org.name,
+            'count' : len(r.records),
+            'start' : epoch_to_datetime(r.report_date_start),
+            'end' : epoch_to_datetime(r.report_date_end), 
+            'info' : r,
+            'records': record_count,
+            }
         )
-    '''
-    
-"""
-    : Example Functions : 
-"""
-'''
-def weather():
-    """
-        : Colorado Flat Tops :
-    """
-    lon = "-107.19720252801557"
-    lat = "39.881855710363055"
-    
 
-    """
-        : 4B East :
-    """
-    lat = "34.52239"
-    lon = "-110.52853"
-    
-    """
-        : 36A :     
-    """
-    lat = "31.789661044426566"
-    lon = "-111.29362649777008"
+    return reports
 
-    url = "http://forecast.weather.gov/MapClick.php?lon={0}&lat={1}&FcstType=dwml".format(lon, lat)
-    r = requests.get(url)
+def get_org_reports():
     
-    data = xmlparse(r.text, 'lxml')
-    forecast = data.data
+    org_reports = {}
+    
+    orgs = DMARCOrg.query.all()
+    
+    for o in orgs:
+        reports = o.reports
 
-    days = []
-    
-    for d in data.find('time-layout').findAll(attrs={'period-name': re.compile(".*")})[0:6]:
-        days.append(d.attrs['period-name'])
+        mail_count = 0
+        for r in reports:
+            record_count = len(r.records)
+            for rec in r.records:
+                mail_count = mail_count + rec.count
         
-    forecast = []
+        org_reports[o.name] = {
+            'record_count' : record_count,
+            'mail_count' : mail_count
+        }
     
-    maxTemps = data.parameters.findAll(attrs={'type' : 'maximum'})[0].findAll('value')
-    minTemps = data.parameters.findAll(attrs={'type' : 'minimum'})[0].findAll('value')
-    icons = data.parameters.find('conditions-icon').findAll('icon-link')
-    wordedForecast = data.parameters.wordedforecast.findAll('text')
-    precip = data.parameters.find('probability-of-precipitation').findAll('value')
-    
-    dprint('Max', len(maxTemps), maxTemps, '\n', 
-        'Min', len(minTemps), minTemps, '\n', 
-        'Word', len(wordedForecast),  wordedForecast, '\n', 
-        'Precip', len(precip), precip)
+    return org_reports
 
-    for i in range(len(days)):
-        if precip[i].text == '':
-            precip_val = '0'
-        else:
-            precip_val = precip[i].text
+def get_mta_report(mta):
+    ''' Receiving MTA Report Data '''
+    
+    org = DMARCOrg.query.filter(DMARCOrg.name == mta).first()
+    
+    if org:
+        reports = DMARCReport.query.filter(DMARCReport.org == org).all()
+    
+        for r in reports:
+            r.report_date_start = epoch_to_datetime(r.report_date_start)
+            r.report_date_end = epoch_to_datetime(r.report_date_end)
         
-        forecast.append({
-            'name' : days[i],
-            'max': maxTemps[i].text, 
-            'min' : minTemps[i].text,
-            'icon' : icons[i].text,
-            'wordedForecast' : wordedForecast[i].text,
-            'precip' : precip_val })
-    
-    return forecast
-
-""""
-    : Map Activity :
-   
-    Routines for identifying map activity of hunters and events sent to the API
-        
-"""
-def get_activity():
-
-        : Colorado Hunt Party :
-        
-    hunterList = [
-        {'name': 'Ralph', 'feedId': 'RalphForsythe', 'auth': None},
-        {'name': 'Lance', 'feedId': 'LaurenceWheelock', 'auth': None},
-        {'name': 'Dustin', 'feedId': 'DustinRomney', 'auth': None},
-        {'name': 'Mike', 'feedId': 'mbaird', 'auth': None}
-    ]
-    
-    
-    
-        : Arizona 2018 Hunt Party :
-    
-    hunterList = [
-        {'name': 'Lance', 'feedId': 'LaurenceWheelock', 'auth': None}, 
-        {'name': 'Dustin', 'feedId': 'DustinRomney', 'auth': None}
-    ]
-    
-    # Initialize Activity object to return to the AJAX call from map.js
-    activity = []
-    activity_dict = {}
-    for hunter in hunterList:
-        url = "https://share.delorme.com/feed/Share/{0}?d1={1}T07:00-700".format(hunter['feedId'], startDate)
-        r = requests.get(url)
-
-        data = xmlparse(r.text, 'lxml')
-        try:
-            placemarks = data.document.folder.findAll('placemark')
-        
-        except AttributeError, err:
-            dprint(url)
-            dprint('swordpoint.lib.utils.get_activity [placemarks]', hunter, err) # Print hunter & error
-            placemarks = []
-        
-        for p in placemarks[:-1]:
-            try:
-                lat = float(p.find(attrs={'name':'Latitude'}).value.text)
-                lon = float(p.find(attrs={'name':'Longitude'}).value.text)
-                name = re.sub(r'ure', '', p.find(attrs={'name': 'Name'}).value.text.split(' ')[0])
-                    
-                entry = {
-                    'name': name,
-                    'time': p.find(attrs={'name':'Time'}).value.text,
-                    'event' : p.find(attrs={'name':'Event'}).value.text,
-                    'ele' : "{0} ft".format(
-                        round(float(p.find(attrs={'name':'Elevation'}).value.text.split(' ')[0]) * 3.28084)),
-                    'velocity' : u"{0} mph {1} \xb0".format(
-                        round(float(p.find(attrs={'name':'Velocity'}).value.text.split(' ')[0]) * 0.621371), 
-                        p.find(attrs={'name':'Course'}).value.text.split(' ')[0]), 
-                    'lat' : lat,
-                    'lon' : lon,
-                }
-                
-                activity_dict[p.find(attrs={'name':'Time'}).value.text] = entry
-            
-            except Exception, err:
-                dprint('swordpoint.lib.utils.get_activity [placemark iter]', err)
-                pass
-    
-    if len(placemarks) < 1:
-        activity = 0
     else:
-        ordered = sorted(activity_dict.items(), key = lambda x:datetime.datetime.strptime(x[0], "%m/%d/%Y %I:%M:%S %p"), reverse=True)
-        for e in ordered:
-            activity.append(e[1])
-    
-    return activity
-
-def map_activity():
-     Using the Delorme sharing API find hunter activity 
-    
-    
-        : Colorado 2016 Hunt Party :
-
-    hunters = [
-        {'mapShare': 'RalphForsythe', 'mapAuth': 'UmFscGhGb3JzeXRoZTpCaWdFbGs=', 'mapData': {
-            'name' : 'Ralph', 'data':{'color': '#383636', 'colorName': 'black', 'points': [] } } },
-        {'mapShare': 'LaurenceWheelock', 'mapAuth': None, 'mapData': {
-            'name' : 'Lance', 'data':{'color': '#147516', 'colorName': 'green', 'points': [] } } },
-        {'mapShare': 'DustinRomney', 'mapAuth': None, 'mapData': {
-            'name' : 'Dustin', 'data':{'color': '#a76114', 'colorName': 'brown', 'points': [] } } },
-    ]
-    
-    
-    
-        : Arizona 2018 Hunt Party :
+        reports = None
         
-    hunters = [
-     {'mapShare': 'LaurenceWheelock', 'mapAuth': None, 'mapData': {
-            'name' : 'Lance', 'data':{'color': '#147516', 'colorName': 'green', 'points': [] } } },
-    {'mapShare': 'DustinRomney', 'mapAuth': None, 'mapData': {
-            'name' : 'Dustin', 'data':{'color': '#a76114', 'colorName': 'brown', 'points': [] } } },
-    ]
-    
-    results = []
-    i = 0
-    
-    for hunter in hunters:
-        if hunter['mapAuth']:
-            headers = { 'Authorization': 'Basic {0}'.format(hunter['mapAuth']) }
-        else:
-            headers = {}
+    return reports
 
-        url = 'https://share.delorme.com/feed/share/{0}?d1={1}T02:00Z'.format(hunter['mapShare'], startDate) 
+def get_domain_detail(domain):
     
-        r = requests.get(url, headers=headers)
-        data = xmlparse(r.text, 'lxml')
-
-        try:
-            placemarks = data.document.folder.findAll('placemark')
+    domain = Domain.query.filter(Domain.name==domain).first()
+    
+    if not domain:
+        return None
         
-            results.append(hunter['mapData'])
-            
-            for p in placemarks[:-1]:
-                results[i]['data']['points'].append([
-                    float(p.find(attrs={'name':'Latitude'}).value.text),
-                    float(p.find(attrs={'name':'Longitude'}).value.text),
-                    p.find(attrs={'name':'Time'}).value.text ])
-            
-            i += 1 # Success count for debug
-        except Exception, err:
-            dprint("swordpoint.lib.utils.map_activity [placemarks bs4]", i, err)
-            
-    return results
+    domain.records = DMARCRecord.query.filter(DMARCRecord.id_header_from == domain).all()
+    
+    return domain
 
-def test_map_activity():
-    url = 'https://share.delorme.com/feed/share/LaurenceWheelock?d1=2016-09-01T08:00-700'
-    r = requests.get(url)
-    data = xmlparse(r.text, 'lxml')
-    
-    placemarks = data.document.folder.findAll('placemark')
-    
-    results = [ {'name' : 'Lance', 'data':{'color': '#147516', 'colorName': 'green', 'points': [] } } ]
-    
-    for p in placemarks[:-1]:
-        results[0]['data']['points'].append([
-            float(p.find(attrs={'name':'Latitude'}).value.text),
-            float(p.find(attrs={'name':'Longitude'}).value.text),
-            p.find(attrs={'name':'Time'}).value.text ])
-    
-    return results
-
-
-    : Icon Activity Functions :
-
-def get_model(icon):
-     Return SQLAlchemy object to store in correct table 
-    
-    try: 
-        iconObj = globals()[icon.capitalize()]
-    
-    except KeyError as err:
-        dprint('swordpoint.lib.utils.get_model [iconObj]', icon, err)
-        iconObj = None
-        
-    return iconObj
-    
-def status(code):
-    
-    return json.dumps({'status' : code})
-
-def icon_activity():
-     Get Icons Stored in DB 
-    
-    # Runtime imports
-    
-    icons = {}
-    
-    for x in dir(models):
-        iconObj = globals()[x]
-        jsObj = x.lower()
-
-        if type(iconObj) == DeclarativeMeta and x != 'Base':
-            
-            icons[jsObj] = []
-            
-            for icon in iconObj.query.all():
-                if jsObj == 'glass':
-                    icon.icon = 'natural-feature'
-                elif jsObj == 'camp':
-                    icon.icon = 'campground'
-                elif jsObj == 'info':
-                    icon.icon = 'square-pin'
-                elif jsObj == 'danger':
-                    icon.icon = 'map-pin'
-                elif jsObj == 'deer':
-                    icon.icon = 'crosshairs'
-                
-                icons[jsObj].append({
-                    'label': icon.label, 
-                    'desc' : icon.desc, 
-                    'lat' : icon.lat, 
-                    'lon' : icon.lon, 
-                    'icon': icon.icon, 
-                    'id' : icon.id,
-                    }
-                )
-    
-    return icons
-
-def add_marker(req):
-    data = req.json
-    dprint(data)
-    
-    Obj = get_model(data['icon'])
-    
-    if Obj is None:
-        return status('error')
-    
-    try: 
-        new_marker = Obj(label = data['label'], lat=data['lat'], lon=data['lon'], desc=data['desc'])
-    
-    except AttributeError as err:
-        dprint('swordpoint.lib.utils.add_marker [new_marker]', data, err)    
-        return status('error')
-    
-    try:
-        db_session.add(new_marker)
-        db_session.commit()
-
-    except Exception as err:
-        dprint('swordpoint.lib.utils.add_marker [sqlalchemy err]', err)
-        return status('error')
-    
-    return status('ok')
-
-def delete_icon(obj, id):
-     Delete Icon from Database 
-    
-    iconObj = globals()[obj.capitalize()]
-
-    try:
-        db_session.delete(iconObj.query.filter(iconObj.id==id).first())
-        db_session.commit()
-    except Exception as err:
-        dprint('swordpoint.lib.utils.delete_icon [sqlalchemy]', obj, id)
-    
-    return 
 '''
+    : API Functions :
+'''
+def api_get_report_id(request):
+    
+    data = {}
+    
+    report_id = request.json['report_id']
+    draw = request.json['draw']
+    length = int(request.json['length'])
+    start = int(request.json['start'])
+    end = start + length
+    
+    report = DMARCReport.query.filter(DMARCReport.report_id == report_id).first()
+    if report is None:
+    
+        return make_response(jsonify(
+        status = 'error', 
+        ), 500)
+
+    records = report.records
+    
+    rows = []
+        
+    for rec in records[start:end]:
+        rows.append({
+            'header'    : rec.id_header_from.name,
+            'ip'        : rec.source_ip.address,
+            'count'     : rec.count,
+            'disp'      : rec.policy_disposition,
+            'dkim'      : rec.policy_dkim,
+            'spf'       : rec.policy_spf,
+        })
+    
+    recordsTotal = len(records)
+    recordsFiltered = len(records)
+    
+    return make_response(jsonify(
+        {
+            'draw'              : draw, 
+            'recordsTotal'      : recordsTotal,
+            'recordsFiltered'   : recordsFiltered,
+            'data'              : rows,
+            }
+        ), 200)
+
+def api_get_selectors_chart(q):
+    
+    data = {
+            'labels' : [],
+            'count'  : []
+        }
+    
+    '''
+        : DKIM Related data :
+        
+        {rec}   Records associated
+        {ips}   IPS associated
+        
+        [id_header_from_id]     When set to 1 this is the paypal.com domain
+        [policy_dkim]           Set to if DKIM passes or fails
+        
+        
+    '''
+    if q == 'rec':
+    
+        pq = db_session.query(DMARCRecord.selector_id, func.count(DMARCRecord.selector_id).\
+            label('count')).\
+            filter(DMARCRecord.selector_id != None).\
+            filter(DMARCRecord.id_header_from_id == 1).\
+            filter(DMARCRecord.policy_dkim == 'pass').\
+            group_by(DMARCRecord.selector_id).\
+            order_by(desc('count')).\
+            limit(7)
+
+    if q == 'ips':
+        pq = Selector.query.join(DMARCRecord).\
+            filter(DMARCRecord.id_header_from_id == 1).\
+            filter(DMARCRecord.policy_dkim == 'pass').\
+            with_entities(DMARCRecord.selector_id, func.count(distinct(DMARCRecord.source_ip_id)).\
+            label('count')).\
+            group_by(DMARCRecord.selector_id).\
+            order_by(desc('count')).\
+            limit(7)
+
+    for sel in pq.all():
+        selector = Selector.query.filter(Selector.id == sel[0]).first()
+        data['labels'].append(selector.name)
+        data['count'].append(sel[1])
+                        
+        '''
+        pq = db_session.query(Selector, func.count(selector_ip_table.c.ip_id).label('count')).\
+                filter(DMARCRecord.selector_id != None).\
+                filter(DMARCRecord.id_header_from_id == 1).\
+                filter(DMARCRecord.policy_dkim == 'pass').\
+                join(selector_ip_table).\
+                group_by(Selector).\
+                order_by(desc('count')).\
+                limit(7)
+        
+        for r in pq.all():
+            data['labels'].append(r[0].name)
+            data['count'].append(r[1])
+        '''
+    
+    return make_response(jsonify(
+        status = 'success', 
+        data = data
+        ), 200)
+
+def api_get_headerfrom_chart():
+    
+    data = {
+        'labels' : [],
+        'count'  : []
+    }
+        
+    hf_tuple_list = DMARCRecord.query.\
+        filter(DMARCRecord.policy_disposition == 'none').\
+        with_entities(DMARCRecord.id_header_from_id, func.count(DMARCRecord.id_header_from_id)).\
+        group_by(DMARCRecord.id_header_from_id).\
+        limit(6).\
+        all()
+    
+    for hft in hf_tuple_list[1:]:
+        domain = Domain.query.filter(Domain.id == hft[0]).first()
+        data['labels'].append(domain.name)
+        data['count'].append(hft[1])
+    
+    return make_response(jsonify(
+        status = 'success', 
+        data = data
+        ), 200)
+        
+def api_get_spffail_domain():
+    domains = {}    
+    data = {
+        'labels': [],
+        'results' : {
+            'fail'  : [],
+            'pass'  : []
+        }
+    }
+
+    for key in ['fail', 'pass']:
+        spf_tuple = dmarc_policy_spf_sql(key)
+
+        for spf in spf_tuple[1:]:
+            domain = Domain.query.filter(Domain.id == spf[0]).first()
+
+            if domain.name not in domains.keys():
+                domains[domain.name] = {}
+            domains[domain.name][key] = spf[1]
+
+
+    for dom, res in domains.items():
+
+        data['labels'].append(dom)    
+
+        for pf in ['fail', 'pass']:
+            if pf in domains[dom].keys():
+                data['results'][pf].append(domains[dom][pf])
+            else:
+                data['results'][pf].append(0)
+
+    return make_response(jsonify(
+        status = 'success', 
+        data = data
+        ), 200)
+        
+def dmarc_policy_spf_sql(key):         
+
+    spf_tuple = DMARCRecord.query.\
+        filter(DMARCRecord.policy_spf == key).\
+        with_entities(DMARCRecord.id_header_from_id, func.count(DMARCRecord.id_header_from_id)).\
+        group_by(DMARCRecord.id_header_from_id).\
+        limit(6).\
+        all()
+
+    return spf_tuple
+
+def api_get_ip_usage():
+    
+    data = {
+        'labels' : [],
+        'count'  : []
+    }
+    
+    ip_tuple = DMARCRecord.query.\
+        filter(DMARCRecord.id_header_from_id == 1).\
+        filter(DMARCRecord.policy_disposition == 'none').\
+        with_entities(DMARCRecord.source_ip_id, func.count(DMARCRecord.source_ip_id).label('count')).\
+        group_by(DMARCRecord.source_ip_id).\
+        order_by(desc('count')).\
+        limit(10)    
+
+    for ip_id, count in ip_tuple: 
+        ip_addr = IPAddress.query.filter(IPAddress.id == ip_id).first()
+        
+        data['labels'].append(ip_addr.address)
+        data['count'].append(count)
+        
+    return make_response(jsonify(
+        status = 'success', 
+        data = data
+        ), 200)
+
+def get_dashboard_ips():
+    ''' For PayPal.com IPs only '''
+    
+    ips = IPAddress.query.\
+        join(DMARCRecord).\
+        filter(DMARCRecord.source_ip_id == IPAddress.id).\
+        filter(DMARCRecord.policy_disposition == 'none').\
+        filter(DMARCRecord.id_header_from_id == 1).\
+        all()
+    
+    return ips
+            
+'''
+    : Full Table Queries :
+'''
+
+def get_dmarc_orgs():
+
+    return DMARCOrg.query.all()
+
+def get_all_records():
+    
+    return DMARCRecord.query.all()
+    
+def get_all_ips():
+    
+    return IPAddress.query.all()
+
+def get_all_reports():
+        
+    return DMARCReport.query.all()
+
+def get_all_selectors():
+    
+    return Selector.query.all()
+
+def get_all_domains():
+    
+    return Domain.query.all()

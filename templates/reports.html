@@ -1,0 +1,127 @@
+{% extends "layout.html" %}
+{% block head %}
+    {{ super() }}
+    
+    {% assets "master_css" %}
+            <link rel=stylesheet type=text/css href="{{ ASSET_URL }}">
+    {% endassets %}
+     
+{% endblock %}
+{% block content %}
+{{ super() }}
+    <div class="content-page">
+		<!-- Start content -->
+        <div class="content">    
+			<div class="container-fluid">					
+				<div class="row">
+					<div class="col-xl-12">
+						<div class="breadcrumb-holder">
+							<h1 class="main-title float-left"><i class="fal fa-monitor-heart-rate"></i> Status</h1>
+							<ol class="breadcrumb float-right">
+								<li class="breadcrumb-item">Home</li>
+								<li class="breadcrumb-item active"> Status </li>
+							</ol>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+				</div>
+                <div class="row mb-4">
+                    <h2 class="main-title float-left"><i class="fal fa-mailbox"></i> MTA Reports {% if reports %}- {{ reports[0].org.org_name }}{% endif %}</h2>
+                </div>
+                <div class='row'>
+                {% if reports %} 
+                    <div id="report-tables" class="card-deck"> <!-- REPORT TABLE -->
+                    {% for r in reports %}
+                        <div class='col-12' id="accordion-{{ r.report_id }}">
+                            <div class="card mb-4">
+                                <div class="card-header mb-2" id='header-{{ r.report_id }}'>                              
+                                    <div class="card-title mr-1">
+                                        <h5 class='mb-0'>
+                                            <button class="btn btn-link" data-toggle="collapse" data-target="#{{ r.report_id }}" aria-expanded="true" aria-controls="collapseOne">Report ID: {{ r.report_id }}</button>
+                                        </h5>
+                                    </div>
+                                    <div class="card-sub-title">
+                                        <h6>Start: {{ r.report_date_start|datetime }}</h6>
+                                        <h6>End: {{ r.report_date_end|datetime }}</h6>
+                                    </div>
+                                </div>
+                                <div id="{{ r.report_id }}" class="collapse show" aria-labelledby="header-{{ r.report_id }}" data-parent="#accordion-{{ r.report_id }}">
+                                    <div class="card-body">
+                                        <table id="{{r.report_id}}" class="table mb-4">
+                                            <thead>
+                                                <th>Header From</th>
+                                                <th>IP Address</th>
+                                                <th>Count</th>
+                                                <th>Disposition</th>
+                                                <th>DKIM Check</th>
+                                                <th>SPF Check</th>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %} 
+                    </div> <!-- END REPORT TABLE -->
+                {% else %}
+    				<div class="card-deck">	<!-- ORG REPORTS SUMMARY -->
+    				{% if not orgs %}
+    				<h1>WTF??</h1>
+    				{% endif %}
+                    {% for o in orgs %} 
+                        <div class="col-xl-4">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h3 id="o.id" class='device-header'>{{ o.name }} </h3>
+                                </div>
+                                <div class='card-body'>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <h6>Reports</h6>
+                                            <h4>{{ o.reports|length }}</h4>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <h6>Records</h6>
+                                            <h4>{{ org_reports[o.name]['record_count'] }}</h4>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <h6>Mail Count</h6>
+                                            <h4>{{ org_reports[o.name]['mail_count'] }}</h4>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="/reports/{{o.name}}" class="btn btn-dark">View Reports</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %} 
+				    </div> <!-- END ORG REPORTS -->
+				{% endif %}
+                </div>
+			</div>
+        </div>
+    </div>
+{% endblock %} <!-- CONTENT -->
+
+{% block footer %}
+
+    {{ super() }}
+    {% assets "datatables_js" %}
+        <script src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+    
+    {% assets "counterup_js" %}
+        <script src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+    
+    {% assets "dmarc_js" %}
+        <script src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+
+{% endblock %} <!-- FOOTER -->
+
+
+

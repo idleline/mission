@@ -1,35 +1,39 @@
 '''
    
-    mission.views
+    dmarc.views
     
 '''
 # System level imports
 import os, sys, sqlite3, json
-from mission.lib.utils import *
-from mission import dprint
+from dmarc.lib.utils import *
+from dmarc import dprint
 
 # Flask dependencies
 from flask import Flask, Blueprint, request, session, g, redirect, url_for, abort, render_template, flash, send_from_directory, current_app
-from flask_bootstrap import Bootstrap
-from flask_security import login_required, roles_required, SQLAlchemyUserDatastore, current_user
 from flask_mail import Message
 from jinja2.exceptions import TemplateNotFound
 
 dashboard = Blueprint('dashboard', __name__)
 
-
 '''
     : Default View Handlers :
     
     For general access requests used by most all Flask apps I build
+    
+    Static file handers and the default page
 '''
+@dashboard.add_app_template_global
+def get_domain_nav(caller=None):
+    
+    return domain_nav()
+
 @dashboard.route('/', defaults={'page': 'index'})
 @dashboard.route('/<page>')
 def show(page):
     try:
         return render_template('%s.html' % page)
     except TemplateNotFound:
-        return render_template('404.html')
+        return render_template('error.html', msg='404: Page Not Found')
 
 @dashboard.route('/favicon.ico')
 def favicon():
@@ -42,6 +46,12 @@ def icons(icon):
 
     return send_from_directory(os.path.join(dashboard.root_path, 'static/icons/'), icon)
     
+@dashboard.route('/assets/<string:asset>')
+def assets(asset):
+    ''' Asset Handler '''
+
+    return send_from_directory(os.path.join(dashboard.root_path, 'assets/'), asset)
+    
 @dashboard.route('/fonts/<string:font>')
 def fonts(font):
     ''' Font Handler '''
@@ -50,56 +60,112 @@ def fonts(font):
 
 @dashboard.route('/')
 def index():
+    ''' Main Page Handler (INDEX)'''
+        
+    return render_template('index.html', notifications=find_user_notifications(), alerts=find_alerts())
+
+@dashboard.route('/test')
+def test_page():
     ''' Main Page Handler '''
         
-    return render_template('mission.html', devices=mission_status(), cameras=camera_status(), cams=ring_cameras())    
+    return render_template('test.html')
 
-"""
-    : Example Views :
-
-    Some examples used in the past
-
-"""
-"""
-@dashboard.route('/activity', methods=['POST'])
-def activity():
-    ''' Return Map Activity '''
-
-    hunter_activity = map_activity()
-    icons = icon_activity()
-    return json.dumps({ 'coords' : hunter_activity, 'icons' : icons })
-
-@dashboard.route('/test', methods=['POST'])
-def test_activity():
-    ''' Return Test Map Data '''
+@dashboard.route('/dashboard')
+def dashboard_viewer():
+    ''' Dashboard View '''
     
-    results = test_map_activity()
-    return json.dumps({ 'coords' : results })
+    return render_template('dashboard.html', 
+        orgs = get_dmarc_orgs(), 
+        records = get_all_records(), 
+        ips = get_dashboard_ips(), 
+        reports = get_all_reports(),
+        selectors = get_all_selectors(),
+        domains = get_all_domains(),
+        )
 
-@dashboard.route('/add')
-def add():
-    ''' Return Add Form Page '''
-    
-    return render_template('add.html')
+@dashboard.route('/reports')
+def mta_report_summary():
+    ''' Report Detail View '''
 
-@dashboard.route('/api/add', methods=['POST'])
-def api_add():
-    
-    response = add_marker(request)
-    
-    return json.dumps({'status' : 'ok'})
+    return render_template('reports.html', 
+        orgs = get_dmarc_orgs(),
+        org_reports = get_org_reports()
+    )
 
-@dashboard.route('/api/deleteIcon')
-def icon_delete():
+@dashboard.route('/reports/<string:mta>')
+def mta_reports(mta):
+    ''' Report Detail View '''
 
-    try:
-        obj = request.args['obj']
-        id = request.args['id']
-    except Exception as err:
-        return render_template('404.html')
-    
-    delete_icon(obj, id)
-    
-    return render_template('index.html', forecast=weather(), activity=get_activity())
+    return render_template('reports.html', 
+        reports = get_mta_report(mta),
+        orgs = get_dmarc_orgs(),
+        org_reports = get_org_reports()
+    )
 
-"""
+@dashboard.route('/domain/<string:domain>')
+def domain_detail(domain):
+    ''' Domain Detail View '''
+
+    return render_template('domain.html', domain = get_domain_detail(domain))
+
+@dashboard.route('/mitre/matrix')
+def mitre_attck():
+    
+    return render_template('mitre_matrix.html', results = get_mitre() )
+
+@dashboard.route('/mitre/actors')
+def mitre_actors():
+    
+    return render_template('mitre_actors.html', actors = get_mitre_actor_list() )
+
+@dashboard.route('/mitre/malware')
+def mitre_malware():
+
+    return render_template('mitre_malware.html', malware = get_mitre_malware() )
+
+@dashboard.route('/api/mitre/ttp/<string:ttpId>')
+def get_ttp_info(ttpId):
+    
+    return ttp_details(ttpId)
+
+'''
+    : AJAX Calls :
+    
+    From javascript assets
+    
+'''
+@dashboard.route('/api/report_id', methods=['POST'])
+def api_report_id():
+    
+    return api_get_report_id(request)
+
+@dashboard.route('/api/selectors/chart')
+def api_selectors():
+    
+    return api_get_selectors_chart('rec')
+
+@dashboard.route('/api/selectorips/chart')
+def api_selector_ips():
+    
+    return api_get_selectors_chart('ips')
+
+@dashboard.route('/api/headerfrom/chart')
+def api_headerfrom_chart():    
+    
+    return api_get_headerfrom_chart()
+
+@dashboard.route('/api/spffail/chart')
+def api_spffail_domain():
+    
+    return api_get_spffail_domain()
+
+@dashboard.route('/api/topips/chart')
+def api_topips_chart():
+
+    return api_get_ip_usage()
+
+@dashboard.route('/login')
+def login():
+    ''' Main Page Handler '''
+        
+    return render_template('auth.html')
