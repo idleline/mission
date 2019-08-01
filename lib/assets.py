@@ -83,24 +83,9 @@ dmarc_js = Bundle(
 dashboard_js = Bundle(
         'js/dashboard.js'
         )
-
-login_js = Bundle(
-        'https://unpkg.com/sweetalert/dist/sweetalert.min.js',
-        'js/login.js',
-        )
-
-admin_js = Bundle(
-        'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js',
-        'https://unpkg.com/sweetalert/dist/sweetalert.min.js',
-        'js/admin.js',
-        )
     
 charts_js = Bundle(
         'js/charts.js'
-)
-
-mitre_js = Bundle(
-        'js/mitre.js'
 )
 
 '''
@@ -117,11 +102,8 @@ bundles = {
     'datatables_js' : datatables_js,
     'counterup_js'  : counterup_js,
     'dmarc_js'      : dmarc_js,
-    'login_js'      : login_js,
-    'admin_js'      : admin_js,
     'charts_js'     : charts_js,
     'dashboard_js'  : dashboard_js,
-    'mitre_js'      : mitre_js,
 }
 
 scss_bundles = {

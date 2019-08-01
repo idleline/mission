@@ -30,22 +30,12 @@ from sqlalchemy.ext.declarative import declarative_base
 ##############
 db_platform = None
 db_user = None
+db_password = None
 db_host = None
 db_port = None
 db_name = None
 
 db_engine = '{0}://{1}:{2}@{3}:{4}/{5}'.format(db_platform, db_user, db_password, db_host, db_port, db_name)
-
-'''
-
-    : DB TLS CONFIG : 
-    
-'''
-ssl_args = {
-    ca_path = 'dmarc-ca.pem',
-    cert_path = 'web.pem',
-    key_path = 'web-key.pem'
-}
 
 @event.listens_for(Pool, "checkout")
 def ping_connection(dbapi_connection, connection_record, connection_proxy):

@@ -62,14 +62,8 @@ def fonts(font):
 def index():
     ''' Main Page Handler (INDEX)'''
         
-    return render_template('index.html', notifications=find_user_notifications(), alerts=find_alerts())
-
-@dashboard.route('/test')
-def test_page():
-    ''' Main Page Handler '''
-        
-    return render_template('test.html')
-
+    return dashboard_viewer()
+    
 @dashboard.route('/dashboard')
 def dashboard_viewer():
     ''' Dashboard View '''
@@ -107,26 +101,6 @@ def domain_detail(domain):
     ''' Domain Detail View '''
 
     return render_template('domain.html', domain = get_domain_detail(domain))
-
-@dashboard.route('/mitre/matrix')
-def mitre_attck():
-    
-    return render_template('mitre_matrix.html', results = get_mitre() )
-
-@dashboard.route('/mitre/actors')
-def mitre_actors():
-    
-    return render_template('mitre_actors.html', actors = get_mitre_actor_list() )
-
-@dashboard.route('/mitre/malware')
-def mitre_malware():
-
-    return render_template('mitre_malware.html', malware = get_mitre_malware() )
-
-@dashboard.route('/api/mitre/ttp/<string:ttpId>')
-def get_ttp_info(ttpId):
-    
-    return ttp_details(ttpId)
 
 '''
     : AJAX Calls :
